@@ -55,7 +55,7 @@ public class AuthManager : MonoBehaviour
      
         panelController.HidePanel();
         panelController.ShowLoginPanl();
-        SceneTransitionManager.LoadScene("HomeScene");
+
     }
 
     public void Login()
@@ -80,6 +80,7 @@ public class AuthManager : MonoBehaviour
             {
                 feedbackText.text = $"Welcome, {username}!";
                 panelController.HideLoginPanel();
+                SceneTransitionManager.LoadScene("HomeScene");
 
             }
             else
