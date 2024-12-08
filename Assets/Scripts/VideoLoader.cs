@@ -1,6 +1,6 @@
-/*using UnityEngine;
+using UnityEngine;
 using UnityEngine.Video;
-using GLTFast; 
+
 public class VideoLoader : MonoBehaviour
 {
     public AssetPaths assetPaths; 
@@ -32,4 +32,3 @@ public class VideoLoader : MonoBehaviour
     }
 
 }
-*/

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6d76de4129b15efab3a49846ca49e1, type: 3}
   m_Name: AssetPaths
   m_EditorClassIdentifier: 
-  videoBundlePath: Assets/VideoBundles/MyVideoBundle
+  videoBundlePath: Assets/Video/VideoTest.mp4
   glbFilePath: Assets/Models/MyModel.glb
