@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ModelLoaderWithSO : MonoBehaviour
+public class ModelLoaderWith : MonoBehaviour
 {
     public ModelData modelData; // Assign the ScriptableObject in the inspector
 
@@ -9,10 +9,8 @@ public class ModelLoaderWithSO : MonoBehaviour
 
     void Start()
     {
-        // Construct the Asset Bundle path (adjust for your setup)
-        assetBundlePath = Application.streamingAssetsPath + "/" + modelData.modelBundleName;
 
-        // Start loading the model
+        assetBundlePath = Application.streamingAssetsPath + "/" + modelData.modelBundleName;
         StartCoroutine(LoadModelFromAssetBundle());
     }
 
@@ -30,7 +28,6 @@ public class ModelLoaderWithSO : MonoBehaviour
             yield break;
         }
 
-        // Load the specific asset (model) from the Asset Bundle
         AssetBundleRequest assetRequest = bundle.LoadAssetAsync<GameObject>(modelData.modeName);
         yield return assetRequest;
 
@@ -38,15 +35,28 @@ public class ModelLoaderWithSO : MonoBehaviour
 
         if (modelPrefab != null)
         {
-            // Instantiate the model in the scene
-            Instantiate(modelPrefab);
+
+            float randomX = Random.Range(-10f, 10f);
+            float randomY = Random.Range(0f, 5f);
+            float randomZ = Random.Range(-10f, 10f);
+
+
+            Vector3 randomPosition = new Vector3(randomX, randomY, randomZ);
+
+
+            Instantiate(modelPrefab, randomPosition, Quaternion.identity);
+
+            Camera.main.transform.position = new Vector3(randomPosition.x, randomPosition.y, randomPosition.z - 20f);
+            Camera.main.transform.LookAt(modelPrefab.transform);
         }
         else
         {
             Debug.LogError("Model not found in AssetBundle: " + modelData.modeName);
         }
 
-        // Optionally unload the Asset Bundle to free memory
+
         bundle.Unload(false);
     }
 }
+
+

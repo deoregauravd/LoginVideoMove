@@ -36,7 +36,7 @@ public class AuthManager : MonoBehaviour
 
         if (password != confirmPassword)
         {
-            feedbackText.text = "Passwords do not match.";
+           feedbackText.text = "Passwords do not match.";
             return;
         }
 
@@ -44,6 +44,8 @@ public class AuthManager : MonoBehaviour
         if (PlayerPrefs.HasKey(username))
         {
             feedbackText.text = "Username already exists.";
+            panelController.HidePanel();
+            panelController.ShowLoginPanl();
             return;
         }
 
@@ -66,7 +68,7 @@ public class AuthManager : MonoBehaviour
         // Validate input fields
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
-            feedbackText.text = "Please fill in all fields.";
+           // feedbackText.text = "Please fill in all fields.";
             return;
         }
 
@@ -101,6 +103,6 @@ public class AuthManager : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
-        feedbackText.text = "All user data cleared.";
+        //feedbackText.text = "All user data cleared.";
     }
 }

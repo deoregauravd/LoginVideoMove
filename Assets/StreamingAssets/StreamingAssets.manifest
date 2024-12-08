@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 1897406041
+CRC: 2942906030
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
+      Name: video_bundle
+      Dependencies: {}
+    Info_1:
       Name: model_bundle
       Dependencies: {}
