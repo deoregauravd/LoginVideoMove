@@ -7,7 +7,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton pattern to ensure only one instance of the manager
+      
         if (instance == null)
         {
             instance = this;
@@ -19,12 +19,11 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
-    // Static method to load a scene by name
     public static void LoadScene(string sceneName)
     {
         if (instance == null)
         {
-            Debug.LogError("SceneTransitionManager not initialized. Please add it to your scene.");
+           
             return;
         }
 

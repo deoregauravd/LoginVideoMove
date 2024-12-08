@@ -80,6 +80,7 @@ public class AuthManager : MonoBehaviour
             {
                 feedbackText.text = $"Welcome, {username}!";
                 panelController.HideLoginPanel();
+                // adding delay would make it look good
                 SceneTransitionManager.LoadScene("HomeScene");
 
             }
