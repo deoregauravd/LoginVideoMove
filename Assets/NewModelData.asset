@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b6d76de4129b15efab3a49846ca49e1, type: 3}
-  m_Name: AssetPaths
+  m_Script: {fileID: 11500000, guid: 34c636b50c46fdc4f940dab54e56f43f, type: 3}
+  m_Name: NewModelData
   m_EditorClassIdentifier: 
-  videoBundlePath: Assets/Video/VideoTest.mp4
-  glbFilePath: Assets/Models/MyModel.glb
+  modelBundleName: model_bundle
+  modeName: model.prefab
