@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 1930497519
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: video_bundle
+      Dependencies: {}

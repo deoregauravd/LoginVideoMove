@@ -6,6 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/LoginScreen.unity
+    guid: 8c1630b0de78e735dbb98f26057159d3
+  - enabled: 1
+    path: Assets/Scenes/HomeScene.unity
+    guid: 4f80871cb3ee4d0469ec22e05eb3351d
+  - enabled: 1
     path: Assets/Scenes/VideoPlayer.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/LoadModel.unity
+    guid: e6a6a2060a1d46f46a5682a889a875b6
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0a302bf41d5154341985a53eea0d8f56,
+      type: 2}

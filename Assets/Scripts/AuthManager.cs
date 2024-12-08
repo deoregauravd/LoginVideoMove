@@ -28,21 +28,19 @@ public class AuthManager : MonoBehaviour
         string password = passwordInputSignup.text;
         string confirmPassword = confirmPasswordInputSignup.text;
 
-        // Validate input fields
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
         {
             feedbackText.text = "Please fill in all fields.";
             return;
         }
 
-        // Check if passwords match
         if (password != confirmPassword)
         {
             feedbackText.text = "Passwords do not match.";
             return;
         }
 
-        // Check if the username already exists
+     
         if (PlayerPrefs.HasKey(username))
         {
             feedbackText.text = "Username already exists.";
@@ -57,6 +55,7 @@ public class AuthManager : MonoBehaviour
      
         panelController.HidePanel();
         panelController.ShowLoginPanl();
+        SceneTransitionManager.LoadScene("HomeScene");
     }
 
     public void Login()
@@ -71,16 +70,17 @@ public class AuthManager : MonoBehaviour
             return;
         }
 
-        // Check if the username exists
+    
         if (PlayerPrefs.HasKey(username))
         {
-            // Retrieve the stored password
+            // Retrieve
             string storedPassword = PlayerPrefs.GetString(username);
 
             if (storedPassword == password)
             {
                 feedbackText.text = $"Welcome, {username}!";
                 panelController.HideLoginPanel();
+
             }
             else
             {

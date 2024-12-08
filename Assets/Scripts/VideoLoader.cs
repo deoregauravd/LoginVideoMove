@@ -1,34 +1,107 @@
 using UnityEngine;
 using UnityEngine.Video;
+using System.Collections;
+using System.Collections.Generic;
 
-public class VideoLoader : MonoBehaviour
+public class VideoManager : MonoBehaviour
 {
-    public AssetPaths assetPaths; 
+    public VideoPlayer videoPlayer; 
+    public VideoData videoData;    
 
-    void Start()
+    private static Dictionary<string, AssetBundle> loadedBundles = new Dictionary<string, AssetBundle>();
+
+    public void PlayVideo()
     {
-        
-        LoadVideo();
-    
+        if (videoPlayer.isPlaying)
+        {
+           
+            return;
+        }
+
+        StartCoroutine(LoadAndPlayVideo());
     }
 
-    void LoadVideo()
+    public void PauseVideo()
     {
-        
-        string videoPath = assetPaths.videoBundlePath;
-        AssetBundle videoBundle = AssetBundle.LoadFromFile(videoPath);
-
-        if (videoBundle != null)
+        if (videoPlayer.isPlaying)
         {
-            VideoClip videoClip = videoBundle.LoadAsset<VideoClip>("VideoClipName");
-           
-            VideoPlayer videoPlayer = GetComponent<VideoPlayer>();
-            videoPlayer.clip = videoClip;
+            videoPlayer.Pause();
+            
         }
         else
         {
-            Debug.LogError("Failed to load video bundle.");
+          
         }
     }
 
+    public void StopVideo()
+    {
+        if (videoPlayer.isPlaying || videoPlayer.isPaused)
+        {
+            videoPlayer.Stop();
+            Debug.Log("Video stopped.");
+        }
+        else
+        {
+            Debug.LogWarning("Cannot stop, the video is not playing.");
+        }
+    }
+
+    private IEnumerator LoadAndPlayVideo()
+    {
+        string bundlePath = Application.streamingAssetsPath + "/" + videoData.bundleName;
+
+        AssetBundle bundle;
+
+        
+        if (loadedBundles.TryGetValue(videoData.bundleName, out bundle))
+        {
+           // alreadt loaded
+        }
+        else
+        {
+          
+            AssetBundleCreateRequest bundleRequest = AssetBundle.LoadFromFileAsync(bundlePath);
+            yield return bundleRequest;
+
+            bundle = bundleRequest.assetBundle;
+            if (bundle == null)
+            {
+                Debug.LogError("Failed to load AssetBundle!");
+                yield break;
+            }
+
+            //cache
+            loadedBundles[videoData.bundleName] = bundle;
+          
+        }
+
+
+        AssetBundleRequest assetRequest = bundle.LoadAssetAsync<VideoClip>(videoData.videoClipName);
+        yield return assetRequest;
+
+        VideoClip videoClip = assetRequest.asset as VideoClip;
+        if (videoClip == null)
+        {
+            Debug.LogError("Failed to load VideoClip!");
+            yield break;
+        }
+
+  
+        videoPlayer.clip = videoClip;
+        videoPlayer.Play();
+        Debug.Log("Video started playing.");
+    }
+
+    private void OnDestroy()
+    {
+       // destroy extra fun
+        foreach (var kvp in loadedBundles)
+        {
+            kvp.Value.Unload(false);
+        }
+
+        loadedBundles.Clear();
+        Debug.Log("All AssetBundles unloaded.");
+    }
 }

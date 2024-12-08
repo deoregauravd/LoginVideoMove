@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 1454894673
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 571497966e2ab93e560502b79173635f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c12678a98877549a3fe7bb52917258ad
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 571497966e2ab93e560502b79173635f
+HashAppended: 0
+ClassTypes:
+- Class: 329
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Video/VideoTest.mp4
+Dependencies: []
