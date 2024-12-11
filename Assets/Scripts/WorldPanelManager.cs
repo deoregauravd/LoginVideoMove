@@ -1,102 +1,106 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;  
-using System.Collections.Generic; 
+using UnityEngine.UI;
 
 public class PanelControl : MonoBehaviour
 {
     public Button nextButton;
     public Button backButton;
-    public TextMeshProUGUI messageText;  
+    public TextMeshProUGUI messageText;
     public Image displayImage;
 
+    public Transform predefinedLocation; 
     public Transform userCamera;
 
     private int step = 0;
-    private Stack<Vector3> teleportHistory = new Stack<Vector3>(); 
-    public Vector3 teleportMinRange; 
-    public Vector3 teleportMaxRange; 
+    private Vector3 lastLocation; 
 
     void Start()
     {
         displayImage.gameObject.SetActive(false);
+        messageText.gameObject.SetActive(false); 
+        lastLocation = userCamera.position; 
 
         nextButton.onClick.AddListener(HandleNext);
         backButton.onClick.AddListener(HandleBack);
+
+        UpdateUI();
     }
 
     void HandleNext()
     {
-        
-        if (step < 2)
+        if (step < 3)
         {
             step++;
-
-            switch (step)
+            if (step == 3)
             {
-                case 1:
-                    messageText.text = "Welcome!";
-                    messageText.gameObject.SetActive(true);
-                    break;
-
-                case 2:
-                    messageText.text = "Image";
-                    displayImage.gameObject.SetActive(true);
-                    break;
-
-                default:
-                    step = 2; 
-                    break;
+                TeleportUserToLocation();
             }
         }
-        else
-        {
-         
-            messageText.text = "Teleporting...";
-            displayImage.gameObject.SetActive(false);
-            TeleportUserToRandomLocation();
-        }
+
+        UpdateUI();
     }
 
     void HandleBack()
     {
-      
-        if (teleportHistory.Count > 1)
+        if (step > 0)
         {
-           
-            teleportHistory.Pop();
-          
-            Vector3 lastLocation = teleportHistory.Peek();
-            TeleportUserToLocation(lastLocation);
+            if (step == 3)
+            {
+                TeleportUserToLastLocation();
+            }
+            step--;
         }
-        else if (teleportHistory.Count == 1)
+
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        //messageText.gameObject.SetActive(true); 
+
+        switch (step)
         {
-            Vector3 initialPosition = teleportHistory.Peek();
-            TeleportUserToLocation(initialPosition);
+            case 0:
+                 messageText.gameObject.SetActive(false); 
+                displayImage.gameObject.SetActive(false);
+                break;
+
+            case 1:
+                messageText.gameObject.SetActive(true); 
+                messageText.text = "Welcome!";
+                displayImage.gameObject.SetActive(false);
+                break;
+
+            case 2:
+                messageText.text = "Here is the text with an image!";
+                displayImage.gameObject.SetActive(true);
+                break;
+
+            case 3:
+                messageText.text = "You have been teleported!";
+                displayImage.gameObject.SetActive(false);
+                break;
+        }
+    }
+
+    void TeleportUserToLocation()
+    {
+        if (predefinedLocation != null)
+        {
+            lastLocation = userCamera.position;
+            userCamera.position = predefinedLocation.position;
+            messageText.text = "Teleported to predefined location!";
         }
         else
         {
-            messageText.text = "No previous location to return to.";
+            messageText.text = "No predefined location set!";
         }
     }
 
-    void TeleportUserToRandomLocation()
+    void TeleportUserToLastLocation()
     {
-        float randomX = Random.Range(teleportMinRange.x, teleportMaxRange.x);
-        float randomY = Random.Range(teleportMinRange.y, teleportMaxRange.y);
-        float randomZ = Random.Range(teleportMinRange.z, teleportMaxRange.z);
-
-        Vector3 randomPosition = new Vector3(randomX, randomY, randomZ);
-
-        teleportHistory.Push(userCamera.position);
-
-        userCamera.position = randomPosition;
-        messageText.text = $"Teleported to: X = {randomX:F2}, Y = {randomY:F2}, Z = {randomZ:F2}";
-    }
-
-    void TeleportUserToLocation(Vector3 location)
-    {
-        userCamera.position = location;
-        messageText.text = $"Teleported to: X = {location.x:F2}, Y = {location.y:F2}, Z = {location.z:F2}";
+        userCamera.position = lastLocation; 
+        messageText.text = "Returned to the last location!";
     }
 }
